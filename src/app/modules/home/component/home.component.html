@@ -1,0 +1,69 @@
+<div class="button-container">
+  <div id="wrapper" [ngStyle]="{'transform': wrapperTransform}">
+    <div class="outer-black">
+      <div class="outer-iron">
+        <div class="glare"></div>
+        <div class="inner-black">
+          <div class="inner-black-2">
+            <div class="inner-black-3">
+              <button
+                class="engine"
+                [ngClass]="{ active: engineActiveAuth }"
+                (click)="toggleEngine(3)"
+                #authButton>
+                <div class="light"></div>
+                <span>Autentificate<br /></span>
+                <span>Start<br />Stop<br /></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="wrapper" [ngStyle]="{'transform': wrapperTransform}">
+    <div class="outer-black">
+      <div class="outer-iron">
+        <div class="glare"></div>
+        <div class="inner-black">
+          <div class="inner-black-2">
+            <div class="inner-black-3">
+              <button
+                class="engine"
+                [ngClass]="{ active: engineActiveVehicles }"
+                (click)="toggleEngine(2)"
+                #vehiclesButton>
+                <div class="light"></div>
+                <span>Vezi vehiculele in stoc<br /></span>
+                <span>Start<br />Stop<br /></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="wrapper" [ngStyle]="{'transform': wrapperTransform}">
+    <div class="outer-black">
+      <div class="outer-iron">
+        <div class="glare"></div>
+        <div class="inner-black">
+          <div class="inner-black-2">
+            <div class="inner-black-3">
+              <button
+                class="engine"
+                [ngClass]="{ active: engineActiveProfile }"
+                (click)="toggleEngine(1)"
+                #profileButton
+                >
+                <div class="light"></div>
+                <span>Profilul tau<br /></span>
+                <span>Start<br />Stop<br /></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
