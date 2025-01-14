@@ -1,11 +1,10 @@
 class StorageHelper {
-  static setToken(token: string, days: number): void {
+  static setToken(token: string, hours: number): void {
     const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000);
     const expires = `expires=${date.toUTCString()}`;
     document.cookie = `authToken=${token}; ${expires}; path=/`;
   }
-
   static getToken(): string | null {
     const nameEQ = `authToken=`;
     const cookies = document.cookie.split(';');

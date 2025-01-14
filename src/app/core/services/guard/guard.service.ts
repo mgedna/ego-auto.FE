@@ -1,4 +1,3 @@
-import { AuthenticationService } from './../authentication/authentication.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { UserRoles } from '../../Entities/Constants/UserRoles.enum';
@@ -8,7 +7,7 @@ import { UserRoles } from '../../Entities/Constants/UserRoles.enum';
 })
 export class GuardService {
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const userRole = UserRoles.Guest;

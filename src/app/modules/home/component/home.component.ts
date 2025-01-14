@@ -33,14 +33,14 @@ export class HomeComponent implements OnInit{
     {
       this.engineActiveVehicles = !this.engineActiveVehicles;
       setTimeout(() => {
-        this.router.navigate(['/vehicles']);  // Redirect după 1.5 secunde
+        this.router.navigate(['/vehicles']);
       }, 800);
     }
     else if(data === HomeButtonTypes.Authentication)
     {
       this.engineActiveAuth = !this.engineActiveAuth;
       setTimeout(() => {
-        this.router.navigate(['/authentication']);  // Redirect după 1.5 secunde
+        this.router.navigate(['/authentication']);
       }, 800);
     }
     else if(data === HomeButtonTypes.Profile)

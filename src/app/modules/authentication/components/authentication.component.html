@@ -1,52 +1,67 @@
 <div class="container" [class.active]="isActive">
   <div class="form-box login">
-    <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
-      <h1>Login</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+      <h3>Intra in contul de tau EGO-AUTO</h3>
       <div class="input-box">
-        <input type="text" placeholder="Username" required [(ngModel)]="login.username" name="username">
-        <i class='bx bxs-user'></i>
+        <input type="text" formControlName="username" placeholder="Adresa de email" />
+        <i class="bx bxs-user"></i>
+        <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error">
+          Username-ul este obligatoriu.
+        </div>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Password" required [(ngModel)]="login.password" name="password">
-        <i class='bx bxs-lock-alt'></i>
+        <input type="password" formControlName="password" placeholder="Parola" />
+        <i class="bx bxs-lock-alt"></i>
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+          Parola este obligatorie.
+        </div>
       </div>
       <div class="forgot-link">
-        <a href="#">Forgot Password?</a>
+        <a href="#">Ti-ai uitat parola, sef?</a>
       </div>
-      <button type="submit" class="btn">Login</button>
+      <button type="submit" class="btn" [disabled]="loginForm.invalid">Intra in cont</button>
     </form>
   </div>
 
   <div class="form-box register">
-    <form #registerForm="ngForm" (ngSubmit)="onRegisterSubmit(registerForm)">
-      <h1>Registration</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+      <h2>Imi fac cont, ce sa fac...</h2>
       <div class="input-box">
-        <input type="text" placeholder="Username" required [(ngModel)]="register.username" name="username">
-        <i class='bx bxs-user'></i>
+        <input type="text" formControlName="username" placeholder="Nume de utilizator" />
+        <i class="bx bxs-user"></i>
+        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error">
+          Numele de utilizator este obligatoriu.
+        </div>
       </div>
       <div class="input-box">
-        <input type="email" placeholder="Email" required [(ngModel)]="register.email" name="email">
-        <i class='bx bxs-envelope'></i>
+        <input type="email" formControlName="email" placeholder="Email" />
+        <i class="bx bxs-envelope"></i>
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+          Email-ul trebuie să fie valid.
+        </div>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Password" required [(ngModel)]="register.password" name="password">
-        <i class='bx bxs-lock-alt'></i>
+        <input type="password" formControlName="password" placeholder="Parola" />
+        <i class="bx bxs-lock-alt"></i>
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+          Parola este obligatorie.
+        </div>
       </div>
-      <button type="submit" class="btn">Register</button>
+      <button type="submit" class="btn" [disabled]="registerForm.invalid">Fa-mi un cont!</button>
     </form>
   </div>
 
   <div class="toggle-box">
-    <div class="toggle-panel toggle-left">
-      <h1>Hello, Welcome!</h1>
-      <p>Don't have an account?</p>
-      <button class="btn register-btn" (click)="toggleForm('register')">Register</button>
+    <div class="toggle-panel toggle-left" style="text-align: center;">
+      <h1>Salut prietene!<br />Bine ai venit!</h1>
+      <p>Nu ai cont? Hai sa-ti faci!</p>
+      <button class="btn register-btn" (click)="toggleForm('register')">Hai sa-mi fac cont</button>
     </div>
 
-    <div class="toggle-panel toggle-right">
-      <h1>Welcome Back!</h1>
-      <p>Already have an account?</p>
-      <button class="btn login-btn" (click)="toggleForm('login')">Login</button>
+    <div class="toggle-panel toggle-right" style="text-align: center;">
+      <h1>Bine ai revenit!</h1>
+      <p>Ai deja cont? Hai sa te loghezi!</p>
+      <button class="btn login-btn" (click)="toggleForm('login')">Am cont</button>
     </div>
   </div>
 </div>

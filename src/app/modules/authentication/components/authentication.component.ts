@@ -1,44 +1,90 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SignUpRequest } from '../Entities/SignUpRequest';
+import { LogInRequest } from '../Entities/LogInRequest';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from '../service/authentication.service';
+import { HttpClientModule } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import StorageHelper from '../../../core/helper/StorageHelper';
 
 @Component({
   selector: 'app-authentication',
-  imports: [FormsModule],
   templateUrl: './authentication.component.html',
   styleUrl: './authentication.component.css',
-  standalone: true
+  standalone: true,
+  imports: [ReactiveFormsModule, HttpClientModule]
 })
 export class AuthenticationComponent {
   isActive = false;
+  loginForm: FormGroup;
+  registerForm: FormGroup;
 
-  login = {
-    username: '',
-    password: ''
-  };
+  constructor(private fb: FormBuilder, private authService: AuthenticationService) {
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    });
 
-  register = {
-    username: '',
-    email: '',
-    password: ''
-  };
+    this.registerForm = this.fb.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
 
   toggleForm(formType: string) {
-    if (formType === 'register') {
-      this.isActive = true;
-    } else {
-      this.isActive = false;
+    this.isActive = formType === 'register';
+  }
+
+  onLoginSubmit() {
+    if (this.loginForm.valid) {
+      const loginData: LogInRequest = {
+        Email: this.loginForm.value.email,
+        Password: this.loginForm.value.password
+      };
+
+      this.authService.login(loginData).subscribe({
+        next: (response: any) => {
+          console.log('Login successful:', response);
+        },
+        error: (err : any) => {
+          console.error('Login error:', err);
+        }
+      });
     }
   }
 
-  onLoginSubmit(loginForm: any) {
-    if (loginForm.valid) {
-      console.log('Login Form Submitted:', this.login);
-    }
-  }
+  onRegisterSubmit() {
+    if (this.registerForm.valid) {
+      const registerData: SignUpRequest = {
+        AccountName: this.registerForm.value.accountName,
+        Email: this.registerForm.value.email,
+        Password: this.registerForm.value.password,
+        Role: this.registerForm.value.role
+      };
 
-  onRegisterSubmit(registerForm: any) {
-    if (registerForm.valid) {
-      console.log('Register Form Submitted:', this.register);
+      this.authService.signup(registerData).subscribe({
+        next: (response: any) => {
+          Swal.fire({
+            title: 'Da bravo!',
+            text: 'All good mate! Hai sa vezi niste masini',
+            icon: 'success',
+            confirmButtonText: 'Hai'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/vehhicles';
+            }
+          });
+        },
+        error: (err: any) => {
+          Swal.fire({
+                      title: 'Naspa chat!',
+                      text: 'A aparut o problema prietene.. Uite asta: ' + err,
+                      icon: 'error'
+                  });
+        }
+      });
     }
   }
 }

@@ -163,7 +163,7 @@ form{ width: 100%; }
 
     .toggle-panel.toggle-left{
         left: 0;
-        transition-delay: 1.2s;
+        transition-delay: .6s;
     }
         .container.active .toggle-panel.toggle-left{
             left: -50%;

@@ -150,36 +150,3 @@ button.engine span:first-of-type{
 #wrapper {
   transform: rotateX(15deg) translateY(-110px); /* Păstrează stilul original */
 }
-.zoom-effect {
-  animation: zoomAndFlow 1s ease-out forwards;
-}
-
-@keyframes zoomAndFlow {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2); /* Zoom pe butonul selectat */
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.5); /* Zoom final pe buton */
-    opacity: 0; /* Se face invizibil la final */
-  }
-}
-
-/* Opțional: Efect de "curgere" al paginii */
-body.zoom-effect-page {
-  animation: pageFlow 1s ease-out forwards;
-}
-
-@keyframes pageFlow {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100vh); /* Face pagina să "curgă" în sus */
-  }
-}
-
