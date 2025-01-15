@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit{
   constructor(private router: Router) {}
 
   ngOnInit(): void{
-    this.isAuthenticated = !!StorageHelper.getToken()
+    this.isAuthenticated = !!StorageHelper.GetToken()
   }
 
   toggleEngine(data: HomeButtonTypes): void {

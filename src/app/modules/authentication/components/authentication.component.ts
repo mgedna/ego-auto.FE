@@ -6,6 +6,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { ErrorResponse } from '../../../core/Entities/ErrorResponse';
+import { AuthenticationResponse } from '../Entities/AuthenticationResponse';
+import { TokenUtility } from '../../../core/helper/JwtHelper';
+import { NgIf } from '@angular/common';
 import StorageHelper from '../../../core/helper/StorageHelper';
 
 @Component({
@@ -13,7 +17,7 @@ import StorageHelper from '../../../core/helper/StorageHelper';
   templateUrl: './authentication.component.html',
   styleUrl: './authentication.component.css',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule]
+  imports: [ReactiveFormsModule, HttpClientModule, NgIf]
 })
 export class AuthenticationComponent {
   isActive = false;
@@ -45,11 +49,26 @@ export class AuthenticationComponent {
       };
 
       this.authService.login(loginData).subscribe({
-        next: (response: any) => {
-          console.log('Login successful:', response);
+        next: (response: AuthenticationResponse) => {
+          StorageHelper.SetToken(response.Token);
+          StorageHelper.SetUser(TokenUtility.DecodeToken(response.Token));
+          Swal.fire({
+            title: 'Da bravo!',
+            text: 'All good, mate! Hai sa vezi niste masini',
+            icon: 'success',
+            confirmButtonText: 'Hai'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/vehicles';
+            }
+          });
         },
-        error: (err : any) => {
-          console.error('Login error:', err);
+        error: (err : ErrorResponse) => {
+            Swal.fire({
+              title: 'Naspa chat!',
+              text: 'A aparut o problema prietene.. Uite asta: ' + err,
+              icon: 'error'
+          });
         }
       });
     }
@@ -65,7 +84,7 @@ export class AuthenticationComponent {
       };
 
       this.authService.signup(registerData).subscribe({
-        next: (response: any) => {
+        next: (response: AuthenticationResponse) => {
           Swal.fire({
             title: 'Da bravo!',
             text: 'All good mate! Hai sa vezi niste masini',
@@ -77,7 +96,7 @@ export class AuthenticationComponent {
             }
           });
         },
-        error: (err: any) => {
+        error: (err: ErrorResponse) => {
           Swal.fire({
                       title: 'Naspa chat!',
                       text: 'A aparut o problema prietene.. Uite asta: ' + err,
