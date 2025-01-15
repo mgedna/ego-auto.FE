@@ -1,3 +1,10 @@
-<p>
-  vehicles works!
-</p>
+<app-grid
+  [rowData]="data"
+  [columnDefs]="columns"
+  [totalPages]="totalPages"
+  [currentPage]="currentPage"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20]"
+  (pageChange)="onPageChange($event)"
+  (pageSizeChange)="onPageSizeChange($event)">
+</app-grid>

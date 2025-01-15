@@ -1,41 +1,47 @@
 import { JwtToken } from "./JwtHelper";
 
 export default class StorageHelper {
-  static SetToken(token: string, days: number = 7): void {
-    const expires = this.GetExpirationDate(days);
-    document.cookie = `authToken=${token}; ${expires}; path=/`;
+  static SetToken(token: string): void {
+    localStorage.setItem("authToken", token);
   }
 
   static GetToken(): string | null {
-    const match = document.cookie.match(/(^|;) ?authToken=([^;]*)(;|$)/);
-    return match ? match[2] : null;
+    return localStorage.getItem("authToken");
   }
 
   static RemoveToken(): void {
-    document.cookie = `authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    localStorage.removeItem("authToken");
   }
 
-  static SetUser(userData?: JwtToken | null, days: number = 7): void {
-    if(userData) {
-      const expires = this.GetExpirationDate(days);
+  static SetUser(userData?: JwtToken | null): void {
+    if (userData) {
       const serializedData = JSON.stringify(userData);
-      const encodedData = encodeURIComponent(serializedData);
-      document.cookie = `userData=${encodedData}; ${expires}; path=/`;
+      localStorage.setItem("userData", serializedData);
     }
- }
+  }
+
+  static SetRole(role?: string | null) : void {
+    localStorage.setItem("userRole", role ?? 'Guest');
+  }
+
+  static GetRole(): string | null {
+    return localStorage.getItem("userRole");
+  }
+
+  static SetUsername(username?: string | null) : void {
+    localStorage.setItem("username", username ?? 'Guest');
+  }
+
+  static SetUserId(userId?: string | null) : void {
+    localStorage.setItem("userId", userId ?? 'Guest');
+  }
 
   static GetUser(): Record<string, any> | null {
-    const match = document.cookie.match(/(^|;) ?userData=([^;]*)(;|$)/);
-    return match ? JSON.parse(decodeURIComponent(match[2])) : null;
+    const userData = localStorage.getItem("userData");
+    return userData ? JSON.parse(userData) : null;
   }
 
   static RemoveUser(): void {
-    document.cookie = `userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  }
-
-  private static GetExpirationDate(days: number): string {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    return `expires=${date.toUTCString()}`;
+    localStorage.removeItem("userData");
   }
 }

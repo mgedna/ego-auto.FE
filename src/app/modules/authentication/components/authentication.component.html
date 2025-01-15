@@ -27,9 +27,9 @@
     <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
       <h2>Imi fac cont, ce sa fac...</h2>
       <div class="input-box">
-        <input type="text" formControlName="username" placeholder="Nume de utilizator" />
+        <input type="text" formControlName="accountName" placeholder="Nume de utilizator" />
         <i class="bx bxs-user"></i>
-        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="error">
+        <div *ngIf="registerForm.get('accountName')?.invalid && registerForm.get('accountName')?.touched" class="error">
           Numele de utilizator este obligatoriu.
         </div>
       </div>

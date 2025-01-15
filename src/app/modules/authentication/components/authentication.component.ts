@@ -11,6 +11,7 @@ import { AuthenticationResponse } from '../Entities/AuthenticationResponse';
 import { TokenUtility } from '../../../core/helper/JwtHelper';
 import { NgIf } from '@angular/common';
 import StorageHelper from '../../../core/helper/StorageHelper';
+import { UserRoles } from '../../../core/Entities/Constants/UserRoles.enum';
 
 @Component({
   selector: 'app-authentication',
@@ -31,7 +32,7 @@ export class AuthenticationComponent {
     });
 
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required]],
+      accountName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
@@ -50,8 +51,9 @@ export class AuthenticationComponent {
 
       this.authService.login(loginData).subscribe({
         next: (response: AuthenticationResponse) => {
-          StorageHelper.SetToken(response.Token);
-          StorageHelper.SetUser(TokenUtility.DecodeToken(response.Token));
+          console.log(response);
+          StorageHelper.SetToken(response.token);
+          StorageHelper.SetUser(TokenUtility.DecodeToken(response.token));
           Swal.fire({
             title: 'Da bravo!',
             text: 'All good, mate! Hai sa vezi niste masini',
@@ -63,7 +65,8 @@ export class AuthenticationComponent {
             }
           });
         },
-        error: (err : ErrorResponse) => {
+        error: (err : any) => {
+          console.log(err)
             Swal.fire({
               title: 'Naspa chat!',
               text: 'A aparut o problema prietene.. Uite asta: ' + err,
@@ -76,15 +79,18 @@ export class AuthenticationComponent {
 
   onRegisterSubmit() {
     if (this.registerForm.valid) {
+      console.log(this.registerForm.value)
       const registerData: SignUpRequest = {
         AccountName: this.registerForm.value.accountName,
         Email: this.registerForm.value.email,
         Password: this.registerForm.value.password,
-        Role: this.registerForm.value.role
+        Role: UserRoles.Renter
       };
 
       this.authService.signup(registerData).subscribe({
         next: (response: AuthenticationResponse) => {
+          console.log(response);
+          StorageHelper.SetToken(response.token);
           Swal.fire({
             title: 'Da bravo!',
             text: 'All good mate! Hai sa vezi niste masini',
@@ -96,10 +102,10 @@ export class AuthenticationComponent {
             }
           });
         },
-        error: (err: ErrorResponse) => {
+        error: (err: any) => {
           Swal.fire({
                       title: 'Naspa chat!',
-                      text: 'A aparut o problema prietene.. Uite asta: ' + err,
+                      text: 'A aparut o problema prietene.. Uite asta: ' + err.error,
                       icon: 'error'
                   });
         }

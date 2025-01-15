@@ -35,7 +35,7 @@ export const routes: Routes = [
     path: 'vehicles',
     loadChildren: () => import('./modules/vehicles/vehicles.module').then(m => m.VehiclesModule),
     canActivate: [GuardService],
-    data: { roles: ['admin'] },
+    data: { roles: [ UserRoles.Admin, UserRoles.Guest, UserRoles.Renter, UserRoles.Support ] },
   },
   {
     path: '',
